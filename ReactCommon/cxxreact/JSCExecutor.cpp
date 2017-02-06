@@ -18,7 +18,7 @@
 
 #include <jschelpers/JSCHelpers.h>
 #include <jschelpers/Value.h>
-
+#include "V8JSExecutor.h"
 #ifdef WITH_INSPECTOR
 #include <inspector/Inspector.h>
 #endif
@@ -127,8 +127,10 @@ static JSValueRef nativeInjectHMRUpdate(
 
 std::unique_ptr<JSExecutor> JSCExecutorFactory::createJSExecutor(
     std::shared_ptr<ExecutorDelegate> delegate, std::shared_ptr<MessageQueueThread> jsQueue) {
-  return std::unique_ptr<JSExecutor>(
-    new JSCExecutor(delegate, jsQueue, m_cacheDir, m_jscConfig));
+//  return std::unique_ptr<JSExecutor>(
+//    new JSCExecutor(delegate, jsQueue, m_cacheDir, m_jscConfig));
+    return std::unique_ptr<JSExecutor>(
+      new v8::V8JSExecutor(delegate, jsQueue, m_cacheDir, m_jscConfig));
 }
 
 JSCExecutor::JSCExecutor(std::shared_ptr<ExecutorDelegate> delegate,
